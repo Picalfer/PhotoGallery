@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="colorPrimary">#6200EE</color> <!-- Основной цвет приложения -->
+    <color name="colorAccent">#03DAC5</color> <!-- Акцентный цвет приложения -->
+    <color name="colorBackground">#FFFFFF</color> <!-- Цвет фона -->
+    <color name="colorText">#000000</color> <!-- Цвет текста -->
+    <color name="colorGray">#A9A9A9</color> <!-- Серый цвет для границ и т.д. -->
 </resources>
