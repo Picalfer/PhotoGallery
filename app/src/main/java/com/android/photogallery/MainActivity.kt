@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
-        // Настройка RecyclerView
         binding.imagesRecyclerView.layoutManager = GridLayoutManager(this, 2)
         adapter = ImageAdapter(images)
         binding.imagesRecyclerView.adapter = adapter
@@ -138,7 +137,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLoading(show: Boolean) {
-        // Здесь можно добавить ProgressBar в ваш layout и управлять его видимостью
         binding.progressBar.visibility =
             if (show) View.VISIBLE else View.GONE
     }
