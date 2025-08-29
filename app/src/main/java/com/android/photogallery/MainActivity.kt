@@ -30,13 +30,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
 
         binding.imagesRecyclerView.layoutManager = GridLayoutManager(this, 2)
-        adapter = ImageAdapter(images)
+        adapter = ImageAdapter(images) { image ->
+            showImageDetail(image)
+        }
         binding.imagesRecyclerView.adapter = adapter
 
         // Добавляем обработчик скролла для пагинации
         binding.imagesRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 10) {
+                    hideKeyboard()
+                }
 
                 val layoutManager = recyclerView.layoutManager as GridLayoutManager
                 val visibleItemCount = layoutManager.childCount
@@ -58,12 +64,30 @@ class MainActivity : AppCompatActivity() {
         binding.searchButton.setOnClickListener {
             val query = binding.searchEditText.text.toString()
             if (query.isNotEmpty()) {
+                hideKeyboard()
                 currentPage = 1 // Сбрасываем на первую страницу при новом поиске
                 searchImages(query)
             } else {
                 Toast.makeText(this, "Please enter search query", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun showImageDetail(image: ImageResult) {
+        binding.fragmentContainer.visibility = View.VISIBLE
+
+        val fragment = ImageDetailFragment.newInstance(image)
+
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.fragment_slide_up,
+                R.anim.fragment_slide_down,
+                R.anim.fragment_slide_up,
+                R.anim.fragment_slide_down
+            )
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun searchImages(query: String) {

@@ -10,7 +10,10 @@ import com.android.photogallery.databinding.ItemImageBinding
 import com.android.photogallery.models.ImageResult
 import com.bumptech.glide.Glide
 
-class ImageAdapter(private val images: List<ImageResult>) :
+class ImageAdapter(
+    private val images: List<ImageResult>,
+    private val onItemClick: (ImageResult) -> Unit,
+) :
     RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -36,6 +39,11 @@ class ImageAdapter(private val images: List<ImageResult>) :
 
         holder.titleView.text = image.title
         holder.licenseView.text = "License: ${image.license}"
+
+        holder.itemView.setOnClickListener {
+            it.hideKeyboard()
+            onItemClick(image)
+        }
     }
 
     override fun getItemCount() = images.size
